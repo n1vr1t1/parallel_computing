@@ -1,0 +1,32 @@
+#!/bin/bash
+# Author: [Nivriti Raisingh]
+#PBS -M nivriti.raisingh@studenti.unitn.it
+#PBS -m abe
+#PBS -N matrix_ops
+#PBS -e ./matrix_transpose.e
+#PBS -o ./matrix_transpose.o
+#PBS -q short_cpuQ
+#PBS -l select=1:ncpus=64:ompthreads=64:mem=13gb
+#PBS -l walltime=0:05:00
+
+module load gcc91
+module load python-3.10.14
+
+# mkdir nivriti_raisingh
+directory=$PBS_O_WORKDIR
+cd $directory/deliverable_1
+pwd
+
+g++-9.1.0 -O0 -c sequential.cc
+g++-9.1.0 -O2 -march=native -c implicit_optimizations.cc
+g++-9.1.0 -O0 -fopenmp -c explicit_optimizations.cc
+g++-9.1.0 -O0 -fopenmp -o matrix_transpose matrix_transpose.cc sequential.o implicit_optimizations.o explicit_optimizations.o
+touch symmetry.csv transpose.csv
+for i in {1..10}
+do
+    ./matrix_transpose
+done
+
+# python3 createPlot.py
+
+# echo "Check out the plot diagram in the png/svg file"
