@@ -108,7 +108,7 @@ The project demonstrates the effectiveness of combining implicit and explicit pa
 ```bash
 git clone https://github.com/n1vr1t1/intro_to_parallel_computing.git
 ```
-### Go to the main folder 
+### Go to the main folder that contains the src folder
 ## Either
 ### Convert from DOS to Unix endlines
 ```bash
