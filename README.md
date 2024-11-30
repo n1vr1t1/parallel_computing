@@ -1,6 +1,6 @@
 # Optimization using Implicit and Explicit Parallelism with OpenMP
 
-Author: Nivriti Raisingh, 239132, nivriti.raisingh@studenti.unitn.it
+Author: Nivriti Raisingh, nivriti.raisingh@studenti.unitn.it
 
 This repository contains the code and report to the first deliverable of the 'Introduction to Parallel Computing` course. The project explores optimization techniques for matrix transposition using implicit and explicit parallelization strategies, leveraging OpenMP. The goal is to evaluate and enhance the efficiency, scalability, and computational performance of matrix operations compared to a sequential baseline.
 
