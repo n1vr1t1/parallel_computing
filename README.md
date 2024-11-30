@@ -120,7 +120,7 @@ dos2unix matrix_transpose.pbs
 qsub matrix_transpose.pbs
 ```
 ## OR
-### To run an interactive session
+### Run an interactive session
 ```bash
 qsub -I -q short_cpuQ -l ncpus=64
 ```
