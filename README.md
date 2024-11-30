@@ -2,8 +2,6 @@
 
 Author: Nivriti Raisingh, 239132, nivriti.raisingh@studenti.unitn.it
 
----
-
 This project explores optimization techniques for matrix transposition using implicit and explicit parallelization strategies, leveraging OpenMP. The goal is to evaluate and enhance the efficiency, scalability, and computational performance of matrix operations compared to a sequential baseline.
 
 ---
