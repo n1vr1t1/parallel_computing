@@ -31,3 +31,17 @@ void matTranspose(float** M, float** T, int n) {
         }
     }
 }
+/**
+ * @brief Copies the transpose of a matrix into another matrix.
+ * The function follows column-major order for reading and row-major order for writing
+ * @param M The original matrix.
+ * @param T The transposed matrix.
+ * @param n The size of the matrix (n x n).
+ */
+void matTranspose2(float** M, float** T, int n) {
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            T[i][j] = M[j][i];
+        }
+    }
+}

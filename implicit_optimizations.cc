@@ -1,4 +1,3 @@
-//optimize the code using -O2 
 #include<algorithm>
 
 bool checkSymImp_ivdep_unroll(float** M, int n){
@@ -17,16 +16,11 @@ bool checkSymImp_ivdep_unroll(float** M, int n){
 }
 bool checkSymImp_Blocking(float** M, int n){
     bool sym=true;
-    int unroll = 16;
-    #pragma GCC ivdep
-    for (int i=0; i<n; i+=unroll) {
-        #pragma GCC ivdep
-        for (int j=0; j<n; j+=unroll) {
-            #pragma GCC ivdep
-            for (int ii=i; ii<std::min(i+unroll, n); ++ii) {
-                #pragma GCC ivdep
-                #pragma GCC unroll 16
-                for (int jj=j; jj<std::min(j+unroll, n); ++jj) {
+    int block = 16;
+    for (int i=0; i<n; i+=block) {
+        for (int j=0; j<n; j+=block) {
+            for (int ii=i; ii<std::min(i+block, n); ++ii) {
+                for (int jj=j; jj<std::min(j+block, n); ++jj) {
                     if(M[ii][jj]!=M[jj][ii]){
                         sym=false;
                     }
@@ -36,7 +30,7 @@ bool checkSymImp_Blocking(float** M, int n){
     }
     return sym;
 }
-//best implementation
+//best approach
 bool checkSymImp_ivdep(float** M, int n){
     bool sym=true;
     #pragma GCC ivdep
@@ -62,7 +56,7 @@ bool checkSymImp_unroll(float** M, int n){
     }
     return sym;
 }
-//best method
+//best approach
 void matTransposeImp_blocking(float** M, float** T, int n){
     const int block = 16;
     for (int i=0; i<n; i+=block) {

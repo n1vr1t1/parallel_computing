@@ -9,7 +9,6 @@
 
 #ifdef _OPENMP
 #include<omp.h>
-#endif
 void check_transpose(float** M, float** T, int n){
     #pragma omp parallel for collapse(2)
     for (int i=0;i<n;i++){
@@ -20,13 +19,24 @@ void check_transpose(float** M, float** T, int n){
         }
     }
 }
+#endif
 int main(){
 
     std::ofstream symmetry_out("symmetry.csv", std::ios::app);
     std::ofstream transpose_out("transpose.csv", std::ios::app);
     std::ofstream bandwidth_out("bandwidth.csv", std::ios::app);
-    if(!(symmetry_out.is_open() && transpose_out.is_open())){
-        std::cout<<"Error opening file"<<std::endl;
+    
+    if(!symmetry_out.is_open()){
+        std::cout<<"Error opening symmetry.csv file"<<std::endl;
+        return 1;
+    }
+
+    if(!transpose_out.is_open()){
+        std::cout<<"Error opening transpose.csv file"<<std::endl;
+        return 1;
+    }
+    if(!bandwidth_out.is_open()){
+        std::cout<<"Error opening bandwidth.csv file"<<std::endl;
         return 1;
     }
     
@@ -76,7 +86,7 @@ int main(){
         auto end = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double> sym_time = end - start;
 
-        std::cout<<"Time taken for checking symmetry: "<<sym_time.count()<<" seconds"<<std::endl;
+        std::cout<<"Time taken for checking symmetry:           "<<sym_time.count()<<" seconds"<<std::endl;
 
 
         /****************************************************************************************************\
@@ -89,9 +99,11 @@ int main(){
         start = std::chrono::high_resolution_clock::now();
         matTranspose(M,T,n);
         end = std::chrono::high_resolution_clock::now();
+        #ifdef _OPENMP
         check_transpose(M,T,n);
+        #endif
         std::chrono::duration<double> transpose_time = end - start;
-        std::cout<<"Time taken for transposing:       "<<transpose_time.count()<<" seconds"<<std::endl;
+        std::cout<<"Time taken for transposing:                 "<<transpose_time.count()<<" seconds"<<std::endl;
 
         bandwidth_out<<data_size / transpose_time.count()<<", ";
         
@@ -118,7 +130,7 @@ int main(){
             std::cout<<"Error in checkSymImp"<<std::endl;
         }
         std::chrono::duration<double> sym_time_imp = end - start;
-        std::cout<<"Time taken for checkImp method 1: "<<sym_time_imp.count()<<" seconds"<<std::endl;
+        std::cout<<"Time taken for checkImp method 1:           "<<sym_time_imp.count()<<" seconds"<<std::endl;
 
         symmetry_out<<sym_time.count() / sym_time_imp.count()<<", ";
         
@@ -129,7 +141,7 @@ int main(){
         }
         end = std::chrono::high_resolution_clock::now();
         sym_time_imp = end - start;
-        std::cout<<"Time taken for checkImp method 2: "<<sym_time_imp.count()<<" seconds"<<std::endl;
+        std::cout<<"Time taken for checkImp method 2:           "<<sym_time_imp.count()<<" seconds"<<std::endl;
         
         symmetry_out<<sym_time.count() / sym_time_imp.count()<<", ";
 
@@ -140,7 +152,7 @@ int main(){
             std::cout<<"Error in checkSymImp"<<std::endl;
         }
         sym_time_imp = end - start;
-        std::cout<<"Time taken for checkImp method 3: "<<sym_time_imp.count()<<" seconds"<<std::endl;
+        std::cout<<"Time taken for checkImp method 3:          "<<sym_time_imp.count()<<" seconds"<<std::endl;
         
 
         symmetry_out<<sym_time.count() / sym_time_imp.count()<<", ";
@@ -152,7 +164,7 @@ int main(){
             std::cout<<"Error in checkSymImp"<<std::endl;
         }
         sym_time_imp = end - start;
-        std::cout<<"Time taken for checkImp method 4: "<<sym_time_imp.count()<<" seconds"<<std::endl;
+        std::cout<<"Time taken for checkImp method 4:           "<<sym_time_imp.count()<<" seconds"<<std::endl;
         
 
         symmetry_out<<sym_time.count() / sym_time_imp.count()<<", ";
@@ -168,9 +180,11 @@ int main(){
         start = std::chrono::high_resolution_clock::now();
         matTransposeImp_blocking(M,T,n);
         end = std::chrono::high_resolution_clock::now();
+        #ifdef _OPENMP
         check_transpose(M,T,n);
+        #endif
         std::chrono::duration<double> transpose_time_imp = end-start;
-        std::cout<<"Time taken for matTransposeImp method 1: "<<transpose_time_imp.count()<<" seconds"<<std::endl;
+        std::cout<<"Time taken for matTransposeImp method 1:    "<<transpose_time_imp.count()<<" seconds"<<std::endl;
 
         transpose_out<<transpose_time.count() / transpose_time_imp.count()<<", ";
         bandwidth_out<<data_size / transpose_time_imp.count()<<", ";
@@ -178,9 +192,11 @@ int main(){
         start = std::chrono::high_resolution_clock::now();
         matTransposeImp_ivdep(M,T,n);
         end = std::chrono::high_resolution_clock::now();
+        #ifdef _OPENMP
         check_transpose(M,T,n);
+        #endif
         transpose_time_imp = end-start;
-        std::cout<<"Time taken for matTransposeImp method 2: "<<transpose_time_imp.count()<<" seconds"<<std::endl;
+        std::cout<<"Time taken for matTransposeImp method 2:    "<<transpose_time_imp.count()<<" seconds"<<std::endl;
 
         transpose_out<<transpose_time.count() / transpose_time_imp.count()<<", ";
         bandwidth_out<<data_size / transpose_time_imp.count()<<", ";
@@ -188,9 +204,11 @@ int main(){
         start = std::chrono::high_resolution_clock::now();
         matTransposeImp_unroll(M,T,n);
         end = std::chrono::high_resolution_clock::now();
+        #ifdef _OPENMP
         check_transpose(M,T,n);
+        #endif
         transpose_time_imp = end - start;
-        std::cout<<"Time taken for matTransposeImp method 3: "<<transpose_time_imp.count()<<" seconds"<<std::endl;
+        std::cout<<"Time taken for matTransposeImp method 3:    "<<transpose_time_imp.count()<<" seconds"<<std::endl;
 
         transpose_out<<transpose_time.count() / transpose_time_imp.count()<<", ";
         bandwidth_out<<data_size / transpose_time_imp.count()<<", ";
@@ -198,9 +216,11 @@ int main(){
         start = std::chrono::high_resolution_clock::now();
         matTransposeImp_unroll_ivdep(M,T,n);
         end = std::chrono::high_resolution_clock::now();
+        #ifdef _OPENMP
         check_transpose(M,T,n);
+        #endif
         transpose_time_imp = end - start;
-        std::cout<<"Time taken for matTransposeImp method 4: "<<transpose_time_imp.count()<<" seconds"<<std::endl;
+        std::cout<<"Time taken for matTransposeImp method 4:    "<<transpose_time_imp.count()<<" seconds"<<std::endl;
 
         transpose_out<<transpose_time.count() / transpose_time_imp.count()<<", ";
         bandwidth_out<<data_size / transpose_time_imp.count()<<", ";
@@ -232,7 +252,7 @@ int main(){
             std::cout<<"Error in checkSymOMP"<<std::endl;
         }
         std::chrono::duration<double> sym_time_omp = end - start;
-        std::cout<<"Time taken for checkSymOMP method 1: "<<sym_time_omp.count()<<" seconds"<<std::endl;
+        std::cout<<"Time taken for checkSymOMP method 1:        "<<sym_time_omp.count()<<" seconds"<<std::endl;
                 
         symmetry_out<<sym_time.count() / sym_time_omp.count()<<", ";
 
@@ -243,7 +263,7 @@ int main(){
             std::cout<<"Error in checkSymOMP"<<std::endl;
         }
         sym_time_omp = end - start;
-        std::cout<<"Time taken for checkSymOMP method 2: "<<sym_time_omp.count()<<" seconds"<<std::endl;
+        std::cout<<"Time taken for checkSymOMP method 2:        "<<sym_time_omp.count()<<" seconds"<<std::endl;
         
         symmetry_out<<sym_time.count() / sym_time_omp.count()<<", ";
 
@@ -254,8 +274,8 @@ int main(){
             std::cout<<"Error in checkSymOMP"<<std::endl;
         }
         sym_time_omp = end - start;
-        std::cout<<"Time taken for checkSymOMP method 3: "<<sym_time_omp.count()<<" seconds"<<std::endl;
-        symmetry_out<<"8"<<std::endl;
+        std::cout<<"Time taken for checkSymOMP method 3:        "<<sym_time_omp.count()<<" seconds"<<std::endl;
+
         symmetry_out<<sym_time.count() / sym_time_omp.count()<<", ";
 
         start = std::chrono::high_resolution_clock::now();
@@ -265,7 +285,7 @@ int main(){
             std::cout<<"Error in checkSymOMP"<<std::endl;
         }
         sym_time_omp = end - start;
-        std::cout<<"Time taken for checkSymOMP method 4: "<<sym_time_omp.count()<<" seconds"<<std::endl;
+        std::cout<<"Time taken for checkSymOMP method 4:        "<<sym_time_omp.count()<<" seconds"<<std::endl;
         
         symmetry_out<<sym_time.count() / sym_time_omp.count()<<std::endl;
 
@@ -278,10 +298,11 @@ int main(){
 
         
         start = std::chrono::high_resolution_clock::now();
-        matTransposeOMP_schedule(M,T,n);
+        matTransposeOMP_Static_schedule(M,T,n);
         end = std::chrono::high_resolution_clock::now();
+        check_transpose(M,T,n);
         std::chrono::duration<double> transpose_time_omp = end-start;
-        std::cout<<"Time taken for matTranspose method 1: "<<transpose_time_omp.count()<<" seconds"<<std::endl;
+        std::cout<<"Time taken for matTransposeOMP method 1:    "<<transpose_time_omp.count()<<" seconds"<<std::endl;
         
         transpose_out<<transpose_time.count() / transpose_time_omp.count()<<", ";
         bandwidth_out<<data_size / transpose_time_omp.count()<<", ";
@@ -289,8 +310,9 @@ int main(){
         start = std::chrono::high_resolution_clock::now();
         matTransposeOMP_Dynamic_Schedule(M,T,n);
         end = std::chrono::high_resolution_clock::now();
+        check_transpose(M,T,n);
         transpose_time_omp = end-start;
-        std::cout<<"Time taken for matTranspose method 2:"<<transpose_time_omp.count()<<" seconds"<<std::endl;
+        std::cout<<"Time taken for matTransposeOMP method 2:    "<<transpose_time_omp.count()<<" seconds"<<std::endl;
         
         transpose_out<<transpose_time.count() / transpose_time_omp.count()<<", ";
         bandwidth_out<<data_size / transpose_time_omp.count()<<", ";
@@ -298,8 +320,9 @@ int main(){
         start = std::chrono::high_resolution_clock::now();
         matTransposeOMP_1D_access(M,T,n);
         end = std::chrono::high_resolution_clock::now();
+        check_transpose(M,T,n);
         transpose_time_omp = end-start;
-        std::cout<<"Time taken for matTranspose method 3:"<<transpose_time_omp.count()<<" seconds"<<std::endl;
+        std::cout<<"Time taken for matTransposeOMP method 3:    "<<transpose_time_omp.count()<<" seconds"<<std::endl;
         
         transpose_out<<transpose_time.count() / transpose_time_omp.count()<<", ";
         bandwidth_out<<data_size / transpose_time_omp.count()<<", ";
@@ -307,8 +330,9 @@ int main(){
         start = std::chrono::high_resolution_clock::now();
         matTransposeOMP_2D_access(M,T,n);
         end = std::chrono::high_resolution_clock::now();
+        check_transpose(M,T,n);
         transpose_time_omp = end-start;
-        std::cout<<"Time taken for matTranspose method 4:"<<transpose_time_omp.count()<<" seconds"<<std::endl;
+        std::cout<<"Time taken for matTransposeOMP method 4:    "<<transpose_time_omp.count()<<" seconds"<<std::endl;
         
         transpose_out<<transpose_time.count() / transpose_time_omp.count()<<std::endl;
         bandwidth_out<<data_size / transpose_time_omp.count()<<std::endl;
@@ -326,6 +350,7 @@ int main(){
 
     symmetry_out.close();
     transpose_out.close();
-
+    bandwidth_out.close();
+    
     return 0;
 }

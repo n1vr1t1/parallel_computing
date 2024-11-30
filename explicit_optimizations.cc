@@ -61,7 +61,7 @@ bool checkSymOMP_SIMD(float** M, int n){
     } 
     return sym;
 }
-void matTransposeOMP_schedule(float** M, float** T, int n) {
+void matTransposeOMP_Static_schedule(float** M, float** T, int n) {
     #pragma omp parallel for collapse(2) schedule(static)
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < n; j++) {
