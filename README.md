@@ -106,7 +106,7 @@ The project demonstrates the effectiveness of combining implicit and explicit pa
 
 ### Clone the Repository
 ```bash
-git clone https://github.com/n1vr1t1/intro_to_parallel_computing.git
+git clone https://github.com/n1vr1t1/parallel_computing.git
 ```
 ### Go to the main folder that contains the src folder
 ## Either
