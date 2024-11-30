@@ -10,7 +10,7 @@
 #PBS -l walltime=0:05:00
 
 echo " "
-echo "Check out the plot diagrams for speedups and roofline models in the png files generated in the current directory."
+echo "Check out the plot diagrams for speedups and roofline models in the png files generated in the src folder."
 echo " "
 
 module load gcc91
