@@ -9,11 +9,14 @@
 #PBS -l select=1:ncpus=64:ompthreads=64:mem=13gb
 #PBS -l walltime=0:05:00
 
+echo " "
+echo "Check out the plot diagrams for speedups and roofline models in the png files generated in the current directory."
+echo " "
+
 module load gcc91
 module load python-3.10.14
 
-cd $PBS_O_WORKDIR
-pwd
+cd $PBS_O_WORKDIR/src
 
 g++-9.1.0 -O0 -c sequential.cc
 g++-9.1.0 -O2 -march=native -c implicit_optimizations.cc
@@ -35,4 +38,3 @@ rm transpose.csv symmetry.csv bandwidth.csv
 module unload gcc91
 module unload python-3.10.14
 
-echo "Check out the plot diagrams for speedups and roofline models in the png files generated in the current directory."
