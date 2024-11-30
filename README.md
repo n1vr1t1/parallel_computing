@@ -140,6 +140,8 @@ g++-9.1.0 -O2 -march=native -c implicit_optimizations.cc
 g++-9.1.0 -O0 -fopenmp -c explicit_optimizations.cc
 g++-9.1.0 -O0 -fopenmp -o matrix_transpose matrix_transpose.cc sequential.o implicit_optimizations.o explicit_optimizations.o
 ```
+
+
 - `-fopenmp`: Enables OpenMP parallelization
 - `-O2` : Applies compiler optimizations to improve the performance and efficiency of the compiled code
 - `-native=march` : Enables the generation of code optimized for the architecture of the host system where the code is being compiled
@@ -169,6 +171,8 @@ The data generated from running the executable can be analyzed in the files:
 - roofline_explicit.png
 - transpose.png
 - symmetry.png
+
+
 All the graphs found in the report are generated using the same python programs provided in this repository. All codes can be found in the src folder.
 
 ## References
