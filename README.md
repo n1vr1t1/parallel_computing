@@ -60,7 +60,7 @@ This project addresses these challenges by leveraging **OpenMP** to parallelize 
 - Minimization of false sharing and overhead.
 
 ### Tools & Libraries
-- **GCC Compiler:** Tested on gcc version `**9.3.0**` on a Windows 11 system and gcc version `**9.1.0**` on a Linux CentOS 7 system (Unitn HPC cluster)
+- **GCC Compiler:** Tested on gcc version **9.3.0** on a Windows 11 system and gcc version **9.1.0** on a Linux CentOS 7 system (Unitn HPC cluster)
 - **OpenMP:** compiled using the `-fopenmp` flag
 - **Standard C++ libraries:** `chrono`, `cstdlib`, `fstream`, `iostream`, `algorithm`, `omp.h`.
 - **Optimization flags:** `-O2` and `-march=native` (for implicit implementaion)
