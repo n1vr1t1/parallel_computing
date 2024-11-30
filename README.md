@@ -1,10 +1,18 @@
 # Optimization using Implicit and Explicit Parallelism with OpenMP
+
 Author: Nivriti Raisingh, 239132, nivriti.raisingh@studenti.unitn.it
+
+---
+
 This project explores optimization techniques for matrix transposition using implicit and explicit parallelization strategies, leveraging OpenMP. The goal is to evaluate and enhance the efficiency, scalability, and computational performance of matrix operations compared to a sequential baseline.
+
+---
 
 ## Overview
 
 Matrix transposition is a fundamental computational operation with applications in fields like numerical simulations, graphics processing, and linear regression. This project investigates both low-level optimizations and parallelization methods to overcome common bottlenecks such as inefficient memory access patterns and cache miss penalties. The results of different approaches are plotted and analyzed in the report.
+
+---
 
 ## Features
 
@@ -17,6 +25,8 @@ Matrix transposition is a fundamental computational operation with applications 
 - Scalability
 - Effective memory bandwidth
 - Roofline Model analysis
+
+---
 
 ## Methodology
 
@@ -32,6 +42,9 @@ Matrix transposition is a fundamental computational operation with applications 
 ### Tools & Libraries
 - **OpenMP, GCC Compiler:** 9.3.0 on computer and 9.1.0 on the HPC cluster
 - **Standard C++ libraries:** `chrono`, `cstdlib`, `fstream`, `iostream`, `algorithm`, `omp.h`.
+- **Optimization flags:** `-O2` and `-march=native` (for implicit implementaion)
+
+---
 
 ## Experimental Setup
 
@@ -40,10 +53,12 @@ Matrix transposition is a fundamental computational operation with applications 
 2. **High-Performance Cluster** with Intel Xeon Gold 5218 CPU, 64 cores, 128 threads.
 
 ### Matrix Sizes
-From `2x4` to `2x12`.
+From `2^4` to `2^12`.
 
 ### Data Collection
 Each test is run 10 times, and average results are analyzed.
+
+---
 
 ## Results
 
@@ -73,11 +88,12 @@ The project demonstrates the effectiveness of combining implicit and explicit pa
 git clone https://github.com/n1vr1t1/intro_to_parallel_computing.git
 ```
 ### Go to the main folder 
+## Either
 ### Convert from DOS to Unix endlines
 ```bash
 dos2unix matrix_transpose.pbs
 ```
-## Either
+
 ### Run the pbs script
 ```bash
 qsub matrix_transpose.pbs
@@ -117,3 +133,10 @@ python3 speedup.py transpose.csv transpose.png
 python3 implicit_bandwidth.py
 python3 explicit_bandwidth.py
 ```
+---
+
+## References
+- **OpenMP Documentation:** https://www.openmp.org/documentation/
+- **Roofline Model:** A Practical Guide to Understanding Memory-Bound Performance.
+- **GCC Compiler Optimization Manual:** https://gcc.gnu.org/onlinedocs/
+- References to research papers are provided in the report 
